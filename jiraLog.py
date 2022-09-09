@@ -54,7 +54,8 @@ if(command_one):
         command_two = getArgument(2, '')
         if(command_two != '' and command_two in workflows.keys()):
             log_work_from_workflows(JIRA_USER, JIRA_PASSWORD, JIRA_SERVER, command_two)
-
+    else:
+        print("I honestly dont have much help here")
 
 
 
