@@ -28,6 +28,9 @@ def failure(error):
     print("Command Incorrect")
     print(error)
 
+def helpCommand():
+    print("pray because I did not write a help command")
+
 def log_work_from_workflows(username, password, server, workflow):
     jiraInstance = getJiraMyselfInstance(username, password, server)
     for x in workflows[workflow]:
@@ -86,6 +89,8 @@ if(command_one):
             log_work_from_cli(JIRA_USER, JIRA_PASSWORD, JIRA_SERVER, command_three, command_four)
         except Exception as error:
             failure(error)
+    else:
+        helpCommand()
 
 
 
