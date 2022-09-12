@@ -10,7 +10,7 @@ JIRA_SERVER = ''
 JIRA_USER = ''
 JIRA_PASSWORD = ''
 
-def log_work_from_workflows( username, password, server, workflow):
+def getJiraMyselfInstance(username, password, server):
     # Some Authentication Methods
     jira = JIRA(
         basic_auth=(username, password),  # a username/password tuple [Not recommended]
@@ -22,9 +22,22 @@ def log_work_from_workflows( username, password, server, workflow):
 
     # Who has authenticated
     myself = jira.myself()
+    return myself
+
+def failure(error):
+    print("Command Incorrect")
+    print(error)
+
+def log_work_from_workflows(username, password, server, workflow):
+    jiraInstance = getJiraMyselfInstance(username, password, server)
     for x in workflows[workflow]:
         print(x)
-        jira.add_worklog(issue=x['issue'], timeSpent=x['length'])
+        jiraInstance.add_worklog(issue=x['issue'], timeSpent=x['length'])
+
+def log_work_from_cli(username, password, server, ticket, length):
+    jiraInstance = getJiraMyselfInstance(username, password, server)
+    jiraInstance.add_worklog(issue=ticket, length=length)
+
 
 def getArgument(position, default_value):
     if(len(sys.argv) > position):
@@ -43,10 +56,21 @@ workflows = {
         'issue': 'LIMA-6',
         'length': '1h',
         'startTime': '10:00'
+    },{
+        'issue': 'LIMA-6',
+        'length': '5h',
+        'startTime': '10:00'
+    }],
+    'newWorkFlow': [{
+        'issue': 'LIMA-6',
+        'length': '1h',
+        'startTime': '10:00'
+    },{
+        'issue': 'LIMA-6',
+        'length': '5h',
+        'startTime': '10:00'
     }]
 }
-
-print(workflows['OOO'])
 
 command_one = getArgument(1, 'help')
 if(command_one):
@@ -54,8 +78,15 @@ if(command_one):
         command_two = getArgument(2, '')
         if(command_two != '' and command_two in workflows.keys()):
             log_work_from_workflows(JIRA_USER, JIRA_PASSWORD, JIRA_SERVER, command_two)
-    else:
-        print("I honestly dont have much help here")
+    elif(command_one == "log"):
+        try:
+            command_two = getArgument(2, '')
+            command_three = getArgument(3, '')
+            command_four = getArgument(4, '')
+            log_work_from_cli(JIRA_USER, JIRA_PASSWORD, JIRA_SERVER, command_three, command_four)
+        except Exception as error:
+            failure(error)
+
 
 
 
