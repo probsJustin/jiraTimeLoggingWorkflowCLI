@@ -11,18 +11,12 @@ JIRA_USER = ''
 JIRA_PASSWORD = ''
 
 def getJiraMyselfInstance(username, password, server):
-    # Some Authentication Methods
     jira = JIRA(
-        basic_auth=(username, password),  # a username/password tuple [Not recommended]
-        # basic_auth=("email", "API token"),  # Jira Cloud: a username/token tuple
-        # token_auth="API token",  # Self-Hosted Jira (e.g. Server): the PAT token
-        # auth=("admin", "admin"),  # a username/password tuple for cookie auth [Not recommended]
+        basic_auth=(username, password),
         server=server
     )
-
-    # Who has authenticated
     myself = jira.myself()
-    return myself
+
 
 def failure(error):
     print("Command Incorrect")
@@ -32,14 +26,22 @@ def helpCommand():
     print("pray because I did not write a help command")
 
 def log_work_from_workflows(username, password, server, workflow):
-    jiraInstance = getJiraMyselfInstance(username, password, server)
+    jira = JIRA(
+        basic_auth=(username, password),
+        server=server
+    )
+    myself = jira.myself()
     for x in workflows[workflow]:
         print(x)
-        jiraInstance.add_worklog(issue=x['issue'], timeSpent=x['length'])
+        jira.add_worklog(issue=x['issue'], timeSpent=x['length'])
 
 def log_work_from_cli(username, password, server, ticket, length):
-    jiraInstance = getJiraMyselfInstance(username, password, server)
-    jiraInstance.add_worklog(issue=ticket, length=length)
+    jira = JIRA(
+        basic_auth=(username, password),
+        server=server
+    )
+    myself = jira.myself()
+    jira.add_worklog(issue=ticket, timeSpent=length)
 
 
 def getArgument(position, default_value):
@@ -83,10 +85,10 @@ if(command_one):
             log_work_from_workflows(JIRA_USER, JIRA_PASSWORD, JIRA_SERVER, command_two)
     elif(command_one == "log"):
         try:
+            command_one = getArgument(1, '')
             command_two = getArgument(2, '')
             command_three = getArgument(3, '')
-            command_four = getArgument(4, '')
-            log_work_from_cli(JIRA_USER, JIRA_PASSWORD, JIRA_SERVER, command_three, command_four)
+            log_work_from_cli(JIRA_USER, JIRA_PASSWORD, JIRA_SERVER, command_two, command_three)
         except Exception as error:
             failure(error)
     else:
