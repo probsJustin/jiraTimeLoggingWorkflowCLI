@@ -35,7 +35,7 @@ def log_work_from_workflows(username, password, server, workflow):
         print(x)
         jira.add_worklog(issue=x['issue'], timeSpent=x['length'])
 
-def log_work_from_cli(username, password, server, ticket, length):
+def log_work_from_cli(username, password, server, length, ticket):
     jira = JIRA(
         basic_auth=(username, password),
         server=server
