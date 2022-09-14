@@ -23,6 +23,8 @@ def failure(error):
     print(error)
 
 def helpCommand():
+    print(f'./jiraLog.py log <hours/minutes: 6h or 6m> <ticket number>')
+    print(f' ./jiraLog.py workflow <workflow name here>')
     print("pray because I did not write a help command")
 
 def log_work_from_workflows(username, password, server, workflow):
@@ -53,25 +55,25 @@ def getArgument(position, default_value):
 
 workflows = {
     'OOO': [{
-        'issue': 'LIMA-9',
+        'issue': 'SOFT-9',
         'length': '8h',
         'startTime': '8:00'
     }],
     'normalWorkDay': [{
-        'issue': 'LIMA-6',
+        'issue': 'SOFT-6',
         'length': '1h',
         'startTime': '10:00'
     },{
-        'issue': 'LIMA-6',
+        'issue': 'SOFT-6',
         'length': '5h',
         'startTime': '10:00'
     }],
     'newWorkFlow': [{
-        'issue': 'LIMA-6',
+        'issue': 'SOFT-6',
         'length': '1h',
         'startTime': '10:00'
     },{
-        'issue': 'LIMA-6',
+        'issue': 'SOFT-6',
         'length': '5h',
         'startTime': '10:00'
     }]

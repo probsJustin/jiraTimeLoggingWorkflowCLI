@@ -9,3 +9,5 @@ jiraTimeLoggingWorkflowCLI it is a time tracking cli, that allows you to set up 
 default example: 
 
 ```python ./jiraLog.py workflow OOO```
+
+```python ./jiraLog.py log 6h SOFT-9```
