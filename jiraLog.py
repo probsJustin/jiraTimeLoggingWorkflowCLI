@@ -6,6 +6,7 @@ from jira.client import ResultList
 from jira.resources import Issue
 import sys
 import os
+import cryptocode
 
 JIRA_SERVER = os.environ.get("JIRA_SERVER")
 JIRA_USER = os.environ.get("JIRA_USER")
@@ -50,6 +51,17 @@ def log_work_from_cli(username, password, server, length, ticket):
     myself = jira.myself()
     jira.add_worklog(issue=ticket, timeSpent=length)
 
+def create_encrypted_password(password_to_encrypt, key_to_encrypt):
+    try:
+        encoded = cryptocode.encrypt(password_to_encrypt, key_to_encrypt)
+        os.environ['JIRA_PASS'] = encoded
+        os.environ['JIRA_KEY'] = key_to_encrypt
+        if(os.environ['JIRA_PASS'] == encoded and os.environ['JIRA_KEY'] == key_to_encrypt):
+            return True
+        else:
+            return False
+    except Exception as error:
+        return False
 
 def getArgument(position, default_value):
     if(len(sys.argv) > position):
