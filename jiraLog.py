@@ -5,10 +5,15 @@ from jira import JIRA
 from jira.client import ResultList
 from jira.resources import Issue
 import sys
+import os
 
-JIRA_SERVER = ''
-JIRA_USER = ''
-JIRA_PASSWORD = ''
+JIRA_SERVER = os.environ.get("JIRA_SERVER")
+JIRA_USER = os.environ.get("JIRA_USER")
+JIRA_PASSWORD = os.environ.get("JIRA_PASSWORD")
+
+#JIRA_SERVER = ''
+#JIRA_USER = ''
+#JIRA_PASSWORD = ''
 
 def getJiraMyselfInstance(username, password, server):
     jira = JIRA(
